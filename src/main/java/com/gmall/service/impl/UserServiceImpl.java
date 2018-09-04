@@ -37,7 +37,7 @@ public class UserServiceImpl implements IUserService {
         return ServerResponse.createBySuccess("登陆成功", user);
     }
 
-    public ServerResponse<String> register(User user) {
+    public ServerResponse<String> register(User user){
 
         ServerResponse validResponse = this.checkValid(user.getUsername(),Const.USERNAME);
         if(!validResponse.isSuccess()){
@@ -176,5 +176,14 @@ public class UserServiceImpl implements IUserService {
         }
         user.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
+    }
+
+    // backend
+    // 校验是否是管理员
+    public ServerResponse checkAdminRole(User user){
+        if(user != null && user.getRole().intValue() == Const.Role.Role_ADMIN){
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
     }
 }
